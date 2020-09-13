@@ -1,26 +1,20 @@
 class EndpointsController < ApplicationController
   before_action :set_endpoint, only: [:update, :destroy]
+  before_action :translate_params, only: [:create, :update]
 
   # GET /endpoints
   def index
-    # implement auth
-    #
     @endpoints = Endpoint.all
     render json: @endpoints
   end
 
   def show
-    # fix me
-    # 404
-    #
     endpoint = Endpoint.find_by path: params[:url]
     render json: {message: endpoint.response_body}
   end
 
   # POST /endpoints
   def create
-    # todo
-    #   validate data
     @endpoint = Endpoint.new(endpoint_params)
 
     if @endpoint.save
@@ -32,8 +26,6 @@ class EndpointsController < ApplicationController
 
   # PATCH/PUT /endpoints/1
   def update
-    # todo
-    #   validate data
     if @endpoint.update(endpoint_params)
       render json: @endpoint
     else
@@ -54,6 +46,14 @@ class EndpointsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def endpoint_params
-      params.fetch(:endpoint).permit(:verb, :path, :response_code, :response_body, response_headers: {})
+      params.fetch(:data).permit(
+        attributes: [:verb, :path, :response_code, :response_body, response_headers: []]
+      )
+    end
+
+    def translate_params
+        params[:data][:attributes][:response_code] = params[:data][:attributes][:response][:code]
+        params[:data][:attributes][:response_headers] = params[:data][:attributes][:response][:headers]
+        params[:data][:attributes][:response_body] = params[:data][:attributes][:response][:body]
     end
 end

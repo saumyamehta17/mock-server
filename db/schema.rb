@@ -22,10 +22,4 @@ ActiveRecord::Schema.define(version: 2020_08_30_105837) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "responses", force: :cascade do |t|
-    t.integer "code"
-    t.string "body"
-    t.json "headers"
-  end
-
 end

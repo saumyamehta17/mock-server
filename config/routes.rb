@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :endpoints#, except: :show
+  resources :endpoints, defaults: { format: :json } #, except: :show,
 
   match "/:url" => "endpoints#show", via: :all, constraints: lambda { |req| req.format == :json }
 

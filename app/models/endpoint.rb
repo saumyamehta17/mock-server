@@ -11,6 +11,7 @@ class Endpoint < ApplicationRecord
     before_validation :ensure_upcase_verb
 
     # uniqueness with path and code
+    # save headers in hash
 
     private
         def ensure_upcase_verb

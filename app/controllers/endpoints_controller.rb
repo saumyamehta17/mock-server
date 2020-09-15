@@ -1,11 +1,12 @@
 class EndpointsController < ApplicationController
+
   before_action :set_endpoint, only: [:update, :destroy]
   before_action :translate_params, only: [:create, :update]
 
   # GET /endpoints
   def index
     @endpoints = Endpoint.all
-    render json: @endpoints
+    # render json: @endpoints
   end
 
   def show

@@ -19,7 +19,7 @@ class EndpointsController < ApplicationController
     @endpoint = Endpoint.new(endpoint_params)
 
     if @endpoint.save
-      render json: @endpoint, status: :created, location: @endpoint
+      render :show, status: :created
     else
       render json: @endpoint.errors, status: :unprocessable_entity
     end
@@ -37,6 +37,7 @@ class EndpointsController < ApplicationController
   # DELETE /endpoints/1
   def destroy
     @endpoint.destroy
+    head :no_content
   end
 
   private

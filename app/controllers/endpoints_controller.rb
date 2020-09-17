@@ -28,7 +28,7 @@ class EndpointsController < ApplicationController
   # PATCH/PUT /endpoints/1
   def update
     if @endpoint.update(endpoint_params)
-      render json: @endpoint
+      render :show
     else
       render json: @endpoint.errors, status: :unprocessable_entity
     end

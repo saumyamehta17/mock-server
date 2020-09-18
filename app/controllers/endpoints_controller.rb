@@ -1,9 +1,10 @@
 class EndpointsController < ApplicationController
 
   before_action :set_endpoint, only: [:update, :destroy]
-  before_action :validate_params, :translate_params, only: [:create, :update]
+  before_action :translate_params, only: [:create, :update]
+  before_action :validate_params, only: :create
 
-  # GET /endpoints
+                # GET /endpoints
   def index
     @endpoints = Endpoint.all
     # render json: @endpoints
@@ -54,6 +55,7 @@ class EndpointsController < ApplicationController
     end
 
     def translate_params
+      return unless params[:data][:attributes][:response]
       params[:data][:attributes][:response_code] = params[:data][:attributes][:response][:code]
       params[:data][:attributes][:response_headers] = params[:data][:attributes][:response][:headers]
       params[:data][:attributes][:response_body] = params[:data][:attributes][:response][:body]

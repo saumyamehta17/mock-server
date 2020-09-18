@@ -66,7 +66,7 @@ RSpec.describe EndpointsController do
       expect(response).to have_http_status(:unprocessable_entity)
     end
 
-    it 'creates endpoint' do
+    it 'creates an endpoint' do
       endpoint_params = {
         "data" => {
           "type"=>"endpoints",
@@ -84,6 +84,26 @@ RSpec.describe EndpointsController do
 
       post :create, params: endpoint_params, format: :json
       expect(response).to have_http_status(:created)
+    end
+  end
+
+  describe 'PATCH update' do
+
+    it 'updates an endpoint' do
+      endpoint = Endpoint.create(verb: 'GET', path: '/greeting', response_code: 200)
+      endpoint_params = {
+        "id" => endpoint.id,
+        "data" => {
+          "type"=>"endpoints",
+          "attributes"=>{
+            "path"=>"/hello"
+          }
+        }
+      }
+
+      put :update, params: endpoint_params, format: :json
+      expect(response.status).to eq(200)
+      expect(endpoint.reload.path).to eq("/hello")
     end
   end
 

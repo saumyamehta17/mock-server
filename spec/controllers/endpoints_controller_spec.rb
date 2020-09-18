@@ -4,49 +4,86 @@ RSpec.describe EndpointsController do
 
   describe 'GET index' do
     it 'returns 200' do
-      get :index
+      get :index, :format => :json
       expect(response.status).to eq(200)
     end
   end
 
 
   describe 'POST create' do
-    # it 'returns unprocessable_entity when response data is missing' do
-    #   endpoint_params = {"data" => {
-    #                     "type"=>"endpoints",
-    #                     "id" => "12345",
-    #                     "attributes"=>{
-    #                       "verb"=>"GET",
-    #                       "path"=>"/foo"
-    #                     }
-    #                   }}
-    #   post :create, params: { endpoint: endpoint_params }
 
-    #   expect(response).to have_http_status(:unprocessable_entity)
-    # end
+    it 'returns unprocessable_entity when response data is missing' do
+      endpoint_params = {
+        "data" => {
+          "type"=>"endpoints",
+          "attributes"=>{
+            "verb"=>"GET",
+            "path"=>"/greeting",
+          }
+        }
+      }
 
-    it 'returns 200' do
-      endpoint_params = {"data" => {
-                            "type"=>"endpoints",
-                            "id" => "12345",
-                            "attributes"=>{
-                              "verb"=>"GET",
-                              "path"=>"/foo",
-                              "response"=> {
-                                "code"=>200,
-                                "headers"=>{},
-                                "body"=>"{\"message\":\"Hello world\"}"
-                              }
-                            }
-                          },
-                          "endpoint"=>{}
-                        }
+      post :create, params: endpoint_params, format: :json
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
 
-      post :create, params:  endpoint_params
+    it 'returns unprocessable_entity when verb is invalid' do
+      endpoint_params = {
+        "data" => {
+          "type"=>"endpoints",
+          "attributes"=>{
+            "verb"=>"FOO",
+            "path"=>"/greeting",
+            "response"=> {
+              "code"=>200,
+              "headers"=>{},
+              "body"=>"{\"message\":\"Hello world\"}"
+            }
+          }
+        }
+      }
+      post :create, params: endpoint_params, format: :json
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
 
+    it 'returns unprocessable_entity when path is invalid' do
+      endpoint_params = {
+        "data" => {
+          "type"=>"endpoints",
+          "attributes"=>{
+            "verb"=>"GET",
+            "path"=>"<>>",
+            "response"=> {
+              "code"=>200,
+              "headers"=>{},
+              "body"=>"{\"message\":\"Hello world\"}"
+            }
+          }
+        }
+      }
+
+      post :create, params: endpoint_params, format: :json
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
+    it 'creates endpoint' do
+      endpoint_params = {
+        "data" => {
+          "type"=>"endpoints",
+          "attributes"=>{
+            "verb"=>"GET",
+            "path"=>"/greeting",
+            "response"=> {
+              "code"=>200,
+              "headers"=>{},
+              "body"=>"{\"message\":\"Hello world\"}"
+            }
+          }
+        }
+      }
+
+      post :create, params: endpoint_params, format: :json
       expect(response).to have_http_status(:created)
-      body = JSON.parse(response.body)
-      expect(body['verb']).to eq('GET')
     end
   end
 

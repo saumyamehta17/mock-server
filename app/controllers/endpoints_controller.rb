@@ -1,7 +1,7 @@
 class EndpointsController < ApplicationController
 
   before_action :set_endpoint, only: [:update, :destroy]
-  before_action :translate_params, only: [:create, :update]
+  before_action :validate_params, :translate_params, only: [:create, :update]
 
   # GET /endpoints
   def index
@@ -54,8 +54,12 @@ class EndpointsController < ApplicationController
     end
 
     def translate_params
-        params[:data][:attributes][:response_code] = params[:data][:attributes][:response][:code]
-        params[:data][:attributes][:response_headers] = params[:data][:attributes][:response][:headers]
-        params[:data][:attributes][:response_body] = params[:data][:attributes][:response][:body]
+      params[:data][:attributes][:response_code] = params[:data][:attributes][:response][:code]
+      params[:data][:attributes][:response_headers] = params[:data][:attributes][:response][:headers]
+      params[:data][:attributes][:response_body] = params[:data][:attributes][:response][:body]
+    end
+
+    def validate_params
+      params.require(:data).require(:attributes).require(:response)
     end
 end

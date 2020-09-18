@@ -11,7 +11,7 @@ class EndpointsController < ApplicationController
 
   # GET /endpoint/:url
   def show
-    endpoint = Endpoint.find_by path: params[:url]
+    endpoint = Endpoint.find_by! path: params[:url]
     render json: {message: endpoint.response_body}
   end
 

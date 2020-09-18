@@ -108,18 +108,30 @@ RSpec.describe EndpointsController do
   end
 
   describe 'GET show' do
-    # it 'returns Not found when no endpoint is created' do
-    #   get :show, params: {url: '/greetings'}
-    #   byebug
-    #   body = JSON.parse(response.body)
-    #   expect(body['verb']).to eq('POST')
-    # end
+    let!(:endpoint) { Endpoint.create(verb: 'GET', path: '/greeting', response_code: 200) }
 
-    # it 'returns endpoint' do
-    #   get :show, params: {url: '/greetings'}
-    #   body = JSON.parse(response.body)
-    #   expect(body['verb']).to eq('POST')
-    # end
+    it 'returns Not found when no endpoint is created' do
+      get :show, params: {url: '/greetings'}
+      expect(response.status).to eq(404)
+    end
+
+    it 'returns Not found when client requests non-existing verb' do
+      get :show, params: {url: '/greetings', verb: 'POST'}
+      expect(response.status).to eq(404)
+    end
+
+    it 'returns Not found when client requests non-existing path' do
+      get :show, params: {url: '/greeting', verb: 'GET'}
+      expect(response.status).to eq(404)
+
+      get :show, params: {url: '/greetings/dear', verb: 'GET'}
+      expect(response.status).to eq(404)
+    end
+
+    it 'returns endpoint' do
+      get :show, params: {url: '/greetings'}
+      expect(response.status).to eq(200)
+    end
   end
 
   describe 'DELETE destroy' do

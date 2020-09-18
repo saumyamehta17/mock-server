@@ -4,7 +4,7 @@ RSpec.describe EndpointsController do
 
   describe 'GET index' do
     it 'returns 200' do
-      get :index, :format => :json
+      get :index, format: :json
       expect(response.status).to eq(200)
     end
   end
@@ -120,5 +120,20 @@ RSpec.describe EndpointsController do
     #   body = JSON.parse(response.body)
     #   expect(body['verb']).to eq('POST')
     # end
+  end
+
+  describe 'DELETE destroy' do
+
+    it 'deletes endpoint' do
+      endpoint = Endpoint.create(verb: 'GET', path: '/greeting', response_code: 200)
+      delete :destroy, params: { id: endpoint.id }, format: :json
+      expect(response.status).to eq(204)
+    end
+
+    it 'returns no_content when no endpoint' do
+      delete :destroy, params: { id: 'random_id' }, format: :json
+      expect(response.status).to eq(404)
+    end
+
   end
 end

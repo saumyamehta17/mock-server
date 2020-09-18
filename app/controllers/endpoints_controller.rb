@@ -4,12 +4,12 @@ class EndpointsController < ApplicationController
   before_action :translate_params, only: [:create, :update]
   before_action :validate_params, only: :create
 
-                # GET /endpoints
+  # GET /endpoints
   def index
     @endpoints = Endpoint.all
-    # render json: @endpoints
   end
 
+  # GET /endpoint/:url
   def show
     endpoint = Endpoint.find_by path: params[:url]
     render json: {message: endpoint.response_body}

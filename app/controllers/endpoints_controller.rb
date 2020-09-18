@@ -49,7 +49,7 @@ class EndpointsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def endpoint_params
       params.fetch(:data).permit(
-        attributes: [:verb, :path, :response_code, :response_body, response_headers: []]
+        attributes: [:verb, :path, :response_code, :response_body, response_headers: {}]
       )
     end
 

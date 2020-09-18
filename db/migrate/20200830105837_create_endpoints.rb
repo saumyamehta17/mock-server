@@ -8,5 +8,8 @@ class CreateEndpoints < ActiveRecord::Migration[5.2]
       t.json :response_headers
       t.timestamps
     end
+
+    add_index :endpoints, [:path, :verb], :unique => true
+
   end
 end

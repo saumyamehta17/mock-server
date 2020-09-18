@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2020_08_30_105837) do
     t.json "response_headers"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["path", "verb"], name: "index_endpoints_on_path_and_verb", unique: true
   end
 
 end

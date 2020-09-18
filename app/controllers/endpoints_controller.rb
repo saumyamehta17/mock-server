@@ -19,7 +19,7 @@ class EndpointsController < ApplicationController
     @endpoint = Endpoint.new(endpoint_params)
 
     if @endpoint.save
-      render json: @endpoint, status: :created, location: @endpoint
+      render :show, status: :created
     else
       render json: @endpoint.errors, status: :unprocessable_entity
     end
@@ -28,7 +28,7 @@ class EndpointsController < ApplicationController
   # PATCH/PUT /endpoints/1
   def update
     if @endpoint.update(endpoint_params)
-      render json: @endpoint
+      render :show
     else
       render json: @endpoint.errors, status: :unprocessable_entity
     end
@@ -37,6 +37,7 @@ class EndpointsController < ApplicationController
   # DELETE /endpoints/1
   def destroy
     @endpoint.destroy
+    head :no_content
   end
 
   private
@@ -48,7 +49,7 @@ class EndpointsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def endpoint_params
       params.fetch(:data).permit(
-        attributes: [:verb, :path, :response_code, :response_body, response_headers: []]
+        attributes: [:verb, :path, :response_code, :response_body, response_headers: {}]
       )
     end
 

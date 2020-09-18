@@ -1,24 +1,22 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Echo - code challenge for back-end developers
 
-Things you may want to cover:
+### System Requirements
 
-* Ruby version
+* Ruby version 2.7.1
 
-* System dependencies
+* Rails version 5.2.4.3
 
-* Configuration
+* Database is Sqlite
 
-* Database creation
+### Database creation
 
-* Database initialization
+- rake db:create
 
-* How to run the test suite
+- rake db:migrate
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
+### Run Tests
 
-* ...
+- rspec

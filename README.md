@@ -10,6 +10,10 @@
 
 * Database is Sqlite
 
+### Assumption
+
+Along with basic validations, I added `path` uniqueness so that client could create duplicate endpoint.  
+
 ### Database creation
 
 - rake db:create

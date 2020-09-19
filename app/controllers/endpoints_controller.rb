@@ -12,8 +12,8 @@ class EndpointsController < ApplicationController
   # GET /endpoint/:url
   def show
     endpoint = Endpoint.find_by! path: request.path, verb: request.method
-    endpoint.response_headers.each {|k,v| response.set_header(k, v)}
 
+    endpoint.response_headers.each {|k,v| response.set_header(k, v)}
     render inline: endpoint.response_body, status: endpoint.response_code
   end
 
@@ -65,5 +65,9 @@ class EndpointsController < ApplicationController
 
     def validate_params
       params.require(:data).require(:attributes).require(:response)
+    end
+
+    def detail
+      params[:id] ? "Requested Endpoint with ID `#{params[:id]}` does not exist" : "Requested page `#{params[:url]}` does not exist"
     end
 end

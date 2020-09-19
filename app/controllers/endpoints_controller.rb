@@ -11,8 +11,10 @@ class EndpointsController < ApplicationController
 
   # GET /endpoint/:url
   def show
-    endpoint = Endpoint.find_by! path: params[:url]
-    render json: {message: endpoint.response_body}
+    endpoint = Endpoint.find_by! path: request.path, verb: request.method
+    endpoint.response_headers.each {|k,v| response.set_header(k, v)}
+
+    render inline: endpoint.response_body, status: endpoint.response_code
   end
 
   # POST /endpoints

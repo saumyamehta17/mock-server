@@ -4,23 +4,37 @@
 
 ### System Requirements
 
-* Ruby version 2.7.1
+* Ruby version 2.6 and above
 
 * Rails version 5.2.4.3
 
-* Database is Sqlite
-
 ### Assumption
 
-Along with basic validations, I added `path` uniqueness so that client could create duplicate endpoint.  
-
-### Database creation
-
-- rake db:create
-
-- rake db:migrate
+Along with basic validations, I added `path` & `method`(HTTP Verb) uniqueness so that client could create duplicate endpoint.  
 
 
-### Run Tests
+### Steps to run :
 
-- rspec
+* Install dependencies
+
+```
+bundle install
+```
+
+* Database setup 
+
+```
+rake db:create
+
+rake db:migrate
+```
+* Run server
+
+```
+rails s
+```
+** Run rests
+
+```
+rspec
+```

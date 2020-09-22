@@ -10,7 +10,7 @@
 
 ### Assumption
 
-Along with basic validations, I added `path` & `method`(HTTP Verb) uniqueness so that client could create duplicate endpoint.  
+Along with basic validations, I added `path` & `method`(HTTP Verb) uniqueness so that client could not create duplicate endpoint.  
 
 
 ### Steps to run :
